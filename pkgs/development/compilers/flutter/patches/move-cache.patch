@@ -6,7 +6,7 @@ index 80fb16673f..da0b83e615 100644
  import 'package:meta/meta.dart';
  import 'package:package_config/package_config.dart';
  
-+import 'base/common.dart'
++import 'base/common.dart';
  import 'base/context.dart';
  import 'base/deferred_component.dart';
  import 'base/file_system.dart';
