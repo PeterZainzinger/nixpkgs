@@ -1,5 +1,5 @@
 diff --git a/packages/flutter_tools/lib/src/asset.dart b/packages/flutter_tools/lib/src/asset.dart
-index 80fb16673f..da0b83e615 100644
+index 80fb16673f..5723f93f9f 100644
 --- a/packages/flutter_tools/lib/src/asset.dart
 +++ b/packages/flutter_tools/lib/src/asset.dart
 @@ -7,6 +7,7 @@
@@ -28,15 +28,23 @@ index 80fb16673f..da0b83e615 100644
            entryUri: entryUri,
            package: null,
 diff --git a/packages/flutter_tools/lib/src/cache.dart b/packages/flutter_tools/lib/src/cache.dart
-index 152d4e75e5..1b4444228c 100644
+index 152d4e75e5..1fcff7e2bd 100644
 --- a/packages/flutter_tools/lib/src/cache.dart
 +++ b/packages/flutter_tools/lib/src/cache.dart
-@@ -298,8 +298,15 @@ class Cache {
+@@ -9,6 +9,7 @@ import 'package:file/memory.dart';
+ import 'package:meta/meta.dart';
+ import 'package:process/process.dart';
+ 
++import 'globals.dart' as globals;
+ import 'base/common.dart';
+ import 'base/error_handling_io.dart';
+ import 'base/file_system.dart';
+@@ -298,8 +299,15 @@ class Cache {
        return;
      }
      assert(_lock == null);
 +
-+    final Directory dir = _fileSystem.directory(_fileSystem.path.join(globals.fsUtils.homeDirPath, '.cache', 'flutter'));
++    final Directory dir = _fileSystem.directory(_fileSystem.path.join(globals.fsUtils.homeDirPath!, '.cache', 'flutter'));
 +    if (!dir.existsSync()) {
 +      dir.createSync(recursive: true);
 +      globals.os.chmod(dir, '755');
@@ -44,16 +52,16 @@ index 152d4e75e5..1b4444228c 100644
 +
      final File lockFile =
 -      _fileSystem.file(_fileSystem.path.join(flutterRoot!, 'bin', 'cache', 'lockfile'));
-+      _fileSystem.file(_fileSystem.path.join(globals.fsUtils.homeDirPath, '.cache', 'flutter', 'lockfile'));
++      _fileSystem.file(_fileSystem.path.join(globals.fsUtils.homeDirPath!, '.cache', 'flutter', 'lockfile'));
      try {
        _lock = lockFile.openSync(mode: FileMode.write);
      } on FileSystemException catch (e) {
-@@ -404,7 +411,7 @@ class Cache {
+@@ -404,7 +412,7 @@ class Cache {
      if (_rootOverride != null) {
        return _fileSystem.directory(_fileSystem.path.join(_rootOverride!.path, 'bin', 'cache'));
      } else {
 -      return _fileSystem.directory(_fileSystem.path.join(flutterRoot!, 'bin', 'cache'));
-+      return _fileSystem.directory(_fileSystem.path.join(globals.fsUtils.homeDirPath, '.cache', 'flutter'));
++      return _fileSystem.directory(_fileSystem.path.join(globals.fsUtils.homeDirPath!, '.cache', 'flutter'));
      }
    }
  
